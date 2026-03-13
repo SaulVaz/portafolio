@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Saúl Vázquez — Full Stack Developer</title>
   <link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
@@ -13,95 +14,93 @@
       --muted: #9999b8; --card: #13131f;
     }
     html { scroll-behavior: smooth; }
-    body { background: #0a0a0f; color: #e2e2f0; font-family: 'Onest', sans-serif; font-size: 15px; line-height: 1.7; overflow-x: hidden; }
+    body { background: #060608; color: #e2e2f0; font-family: 'Onest', sans-serif; font-size: 15px; line-height: 1.7; overflow-x: hidden; }
     body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E"); pointer-events: none; z-index: 0; }
-    .glow-orb { position: fixed; border-radius: 50%; filter: blur(120px); pointer-events: none; z-index: 0; opacity: 0.12; }
-    .glow-orb-1 { width: 600px; height: 600px; background: #7c6aff; top: -200px; left: -100px; }
-    .glow-orb-2 { width: 400px; height: 400px; background: #7c6aff; bottom: 10%; right: -100px; opacity: 0.07; }
-    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: center; align-items: center; padding: 1.2rem 4rem; background: rgba(10,10,15,0.8); backdrop-filter: blur(12px); border-bottom: 1px solid #2a2a3e; position: relative; }
+    .glow-orb { position: fixed; border-radius: 50%; filter: blur(140px); pointer-events: none; z-index: 0; opacity: 0.06; }
+    .glow-orb-1 { width: 600px; height: 600px; background: #4a4a6a; top: -200px; left: -100px; }
+    .glow-orb-2 { width: 400px; height: 400px; background: #3a3a5a; bottom: 10%; right: -100px; opacity: 0.04; }
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: center; align-items: center; padding: 1.2rem 4rem; background: rgba(6,6,8,0.85); backdrop-filter: blur(12px); border-bottom: 1px solid #111116; position: relative; }
     .nav-links { display: flex; gap: 2rem; list-style: none; }
     .nav-links a { color: #9999b8; text-decoration: none; font-size: 0.8rem; letter-spacing: 0.05em; text-transform: uppercase; transition: color 0.2s; }
-    .nav-links a:hover { color: #a599ff; }
+    .nav-links a:hover { color: #ffffff; }
     section { position: relative; z-index: 1; }
     #hero { min-height: 100vh; display: flex; align-items: center; padding: 0 4rem; max-width: 1100px; margin: 0 auto; }
     .hero-content { animation: fadeUp 0.9s ease both; }
-    .hero-tag { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(124,106,255,0.1); border: 1px solid rgba(124,106,255,0.3); color: #7c6aff; font-size: 0.75rem; padding: 0.35rem 0.9rem; border-radius: 999px; margin-bottom: 1.8rem; letter-spacing: 0.08em; }
+    .hero-tag { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); color: #c8c8d8; font-size: 0.75rem; padding: 0.35rem 0.9rem; border-radius: 999px; margin-bottom: 1.8rem; letter-spacing: 0.08em; }
     .hero-tag::before { content: '●'; font-size: 0.5rem; animation: pulse 2s infinite; }
     h1 { font-family: 'Onest', sans-serif; font-size: clamp(3rem, 7vw, 5.5rem); font-weight: 800; line-height: 1.05; letter-spacing: -0.03em; margin-bottom: 1.2rem; }
-    h1 .name-accent { color: #7c6aff; }
+    h1 .name-accent { color: #ffffff; }
     h1 .role-line { display: block; color: #9999b8; font-size: clamp(1.5rem, 3.5vw, 2.5rem); font-weight: 600; }
     .hero-desc { color: #9999b8; max-width: 520px; margin-bottom: 2.5rem; font-size: 0.9rem; }
     .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; }
     .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.6rem; border-radius: 8px; font-family: 'Onest', sans-serif; font-size: 0.82rem; text-decoration: none; transition: all 0.25s; cursor: pointer; border: none; }
-    .btn-primary { background: #7c6aff; color: #fff; }
-    .btn-primary:hover { background: #6a58f0; transform: translateY(-2px); box-shadow: 0 8px 30px rgba(124,106,255,0.4); }
+    .btn-primary { background: #1c1c24; color: #fff; border: 1px solid #3a3a4a; }
+    .btn-primary:hover { background: #252530; border-color: #ffffff; transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.5); }
     .btn-ghost { background: transparent; color: #e2e2f0; border: 1px solid #2a2a3e; }
     .btn-ghost:hover { border-color: #7c6aff; color: #7c6aff; transform: translateY(-2px); }
     .section-wrap { max-width: 1100px; margin: 0 auto; padding: 6rem 4rem; }
-    .section-label { display: flex; align-items: center; gap: 1rem; color: #7c6aff; font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 1rem; }
-    .section-label::after { content: ''; flex: 1; max-width: 60px; height: 1px; background: #7c6aff; opacity: 0.5; }
+    .section-label { display: flex; align-items: center; gap: 1rem; color: #6a6a80; font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 1rem; }
+    .section-label::after { content: ''; flex: 1; max-width: 60px; height: 1px; background: #6a6a80; opacity: 0.5; }
     h2 { font-family: 'Onest', sans-serif; font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 3rem; color: #e2e2f0; }
     .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
     .about-text p { color: #9999b8; margin-bottom: 1.2rem; font-size: 0.88rem; }
     .about-text p strong { color: #e2e2f0; }
     .about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
-    .stat-card { background: #1a1a2e; border: 1px solid #2a2a3e; border-radius: 12px; padding: 1.5rem; transition: border-color 0.2s; }
-    .stat-card:hover { border-color: #7c6aff; }
-    .stat-number { font-family: 'Onest', sans-serif; font-size: 2.2rem; font-weight: 800; color: #7c6aff; line-height: 1; margin-bottom: 0.4rem; }
+    .stat-card { background: #0e0e14; border: 1px solid #1e1e28; border-radius: 12px; padding: 1.5rem; transition: border-color 0.2s; }
+    .stat-card:hover { border-color: #4a4a5a; }
+    .stat-number { font-family: 'Onest', sans-serif; font-size: 2.2rem; font-weight: 800; color: #ffffff; line-height: 1; margin-bottom: 0.4rem; }
     .stat-desc { color: #9999b8; font-size: 0.78rem; }
-    #skills { background: #0f0f1a; border-top: 1px solid #2a2a3e; border-bottom: 1px solid #2a2a3e; }
+    #skills { background: #08080c; border-top: 1px solid #111116; border-bottom: 1px solid #111116; }
     .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 1rem; }
-    .skill-chip { display: flex; align-items: center; gap: 0.6rem; background: #1a1a2e; border: 1px solid #2a2a3e; border-radius: 10px; padding: 0.75rem 1rem; font-size: 0.82rem; color: #e2e2f0; transition: all 0.2s; cursor: default; }
-    .skill-chip:hover { border-color: #a599ff; color: #a599ff; transform: translateY(-2px); }
-    .skill-dot { width: 7px; height: 7px; border-radius: 50%; background: #a599ff; flex-shrink: 0; }
+    .skill-chip { display: flex; align-items: center; gap: 0.6rem; background: #0e0e14; border: 1px solid #1e1e28; border-radius: 10px; padding: 0.75rem 1rem; font-size: 0.82rem; color: #e2e2f0; transition: all 0.2s; cursor: default; }
+    .skill-chip:hover { border-color: #9090a8; color: #e2e2f0; transform: translateY(-2px); }
+    .skill-dot { width: 7px; height: 7px; border-radius: 50%; background: #4a4a5a; flex-shrink: 0; }
     .projects-list { display: flex; flex-direction: column; }
-    .cv-project { display: grid; grid-template-columns: 190px 1fr; gap: 0 3rem; padding: 2.5rem 0; border-bottom: 1px solid #2a2a3e; transition: background 0.2s; }
-    .cv-project:first-child { border-top: 1px solid #2a2a3e; }
-    .cv-project:hover { background: rgba(124,106,255,0.03); }
+    .cv-project { display: grid; grid-template-columns: 190px 1fr; gap: 0 3rem; padding: 2.5rem 0; border-bottom: 1px solid #1a1a22; transition: background 0.2s; }
+    .cv-project:first-child { border-top: 1px solid #1a1a22; }
+    .cv-project:hover { background: rgba(255,255,255,0.02); }
     .cv-project-meta { display: flex; flex-direction: column; gap: 0.5rem; padding-top: 0.15rem; }
     .cv-project-period { font-size: 0.75rem; color: #9999b8; letter-spacing: 0.04em; }
-    .cv-project-type { display: inline-block; font-size: 0.68rem; color: #7c6aff; background: rgba(124,106,255,0.1); border: 1px solid rgba(124,106,255,0.2); padding: 0.15rem 0.6rem; border-radius: 999px; letter-spacing: 0.05em; width: fit-content; }
+    .cv-project-type { display: inline-block; font-size: 0.68rem; color: #8888a0; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); padding: 0.15rem 0.6rem; border-radius: 999px; letter-spacing: 0.05em; width: fit-content; }
     .cv-project-links { display: flex; gap: 0.8rem; margin-top: 0.3rem; }
     .cv-project-link { font-size: 0.73rem; color: #9999b8; text-decoration: none; border-bottom: 1px solid #2a2a3e; padding-bottom: 1px; transition: color 0.2s, border-color 0.2s; }
-    .cv-project-link:hover { color: #7c6aff; border-color: #7c6aff; }
+    .cv-project-link:hover { color: #e2e2f0; border-color: #5a5a6a; }
     .cv-project-body { display: flex; flex-direction: column; gap: 1rem; }
     .cv-project-header { display: flex; align-items: baseline; gap: 0.8rem; flex-wrap: wrap; }
     .cv-project-title { font-size: 1.05rem; font-weight: 700; color: #e2e2f0; letter-spacing: -0.01em; }
-    .cv-project-where { font-size: 0.8rem; color: #a599ff; }
+    .cv-project-where { font-size: 0.8rem; color: #606070; }
     .cv-project-desc { color: #9999b8; font-size: 0.85rem; line-height: 1.78; }
-    .cv-project-reasoning { background: rgba(124,106,255,0.05); border-left: 2px solid #7c6aff; padding: 0.9rem 1.1rem; border-radius: 0 8px 8px 0; }
-    .cv-project-reasoning-label { font-size: 0.67rem; color: #7c6aff; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.45rem; font-weight: 600; }
+    .cv-project-reasoning { background: rgba(255,255,255,0.025); border-left: 2px solid #3a3a4a; padding: 0.9rem 1.1rem; border-radius: 0 8px 8px 0; }
+    .cv-project-reasoning-label { font-size: 0.67rem; color: #5a5a6e; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.45rem; font-weight: 600; }
     .cv-project-reasoning p { color: #9999b8; font-size: 0.82rem; line-height: 1.75; }
     .cv-project-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
-    .tag { background: rgba(124,106,255,0.08); border: 1px solid rgba(124,106,255,0.18); color: #7c6aff; font-size: 0.7rem; padding: 0.2rem 0.65rem; border-radius: 6px; font-weight: 500; }
+    .tag { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); color: #9090a8; font-size: 0.7rem; padding: 0.2rem 0.65rem; border-radius: 6px; font-weight: 500; }
     @media (max-width: 500px) { .cv-project { grid-template-columns: 1fr; gap: 1rem; } }
     .timeline { display: flex; flex-direction: column; gap: 0; }
     .timeline-item { display: grid; grid-template-columns: 180px 1px 1fr; gap: 0 2rem; padding-bottom: 3rem; }
     .timeline-date { text-align: right; color: #9999b8; font-size: 0.78rem; padding-top: 0.2rem; }
-    .timeline-line { position: relative; background: #2a2a3e; width: 1px; }
-    .timeline-dot { position: absolute; top: 0.3rem; left: 50%; transform: translateX(-50%); width: 10px; height: 10px; border-radius: 50%; background: #7c6aff; box-shadow: 0 0 0 3px #0a0a0f, 0 0 0 4px #7c6aff; }
+    .timeline-line { position: relative; background: #1a1a22; width: 1px; }
+    .timeline-dot { position: absolute; top: 0.3rem; left: 50%; transform: translateX(-50%); width: 10px; height: 10px; border-radius: 50%; background: #5a5a6a; box-shadow: 0 0 0 3px #060608, 0 0 0 4px #3a3a4a; }
     .timeline-content { padding-top: 0; }
     .exp-role { font-family: 'Onest', sans-serif; font-size: 1rem; font-weight: 700; color: #e2e2f0; margin-bottom: 0.2rem; }
-    .exp-company { color: #a599ff; font-size: 0.8rem; margin-bottom: 0.8rem; }
+    .exp-company { color: #6a6a7e; font-size: 0.8rem; margin-bottom: 0.8rem; }
     .exp-desc { color: #9999b8; font-size: 0.82rem; }
-    #contact { background: #0f0f1a; border-top: 1px solid #2a2a3e; }
+    #contact { background: #08080c; border-top: 1px solid #111116; }
     .contact-inner { text-align: center; max-width: 600px; margin: 0 auto; }
     .contact-inner p { color: #9999b8; font-size: 0.88rem; margin-bottom: 2.5rem; }
     .contact-links { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
-    .contact-btn { display: inline-flex; align-items: center; gap: 0.6rem; background: #1a1a2e; border: 1px solid #2a2a3e; color: #e2e2f0; padding: 0.8rem 1.6rem; border-radius: 10px; text-decoration: none; font-size: 0.82rem; transition: all 0.2s; }
-    .contact-btn:hover { border-color: #7c6aff; color: #7c6aff; transform: translateY(-2px); }
+    .contact-btn { display: inline-flex; align-items: center; gap: 0.6rem; background: #0e0e14; border: 1px solid #1e1e28; color: #e2e2f0; padding: 0.8rem 1.6rem; border-radius: 10px; text-decoration: none; font-size: 0.82rem; transition: all 0.2s; }
+    .contact-btn:hover { border-color: #5a5a6a; color: #e2e2f0; transform: translateY(-2px); }
     #emailBtn { cursor: pointer; font-family: 'Onest', sans-serif; font-size: 0.82rem; background: #1a1a2e; border: 1px solid #2a2a3e; }
     #emailBtn.copied { border-color: #3de8b0 !important; color: #3de8b0 !important; }
-    #emailBtn { cursor: pointer; font-family: 'Onest', sans-serif; font-size: 0.82rem; }
-    #emailBtn.copied { border-color: #3de8b0; color: #3de8b0; }
-    footer { border-top: 1px solid #2a2a3e; padding: 2rem 4rem; text-align: center; color: #9999b8; font-size: 0.75rem; position: relative; z-index: 1; }
-    footer span { color: #7c6aff; }
+    footer { border-top: 1px solid #111116; padding: 2rem 4rem; text-align: center; color: #9999b8; font-size: 0.75rem; position: relative; z-index: 1; }
+    footer span { color: #9090a0; }
     @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
     .fade-in { opacity: 1; transform: translateY(0); }
     ::-webkit-scrollbar { width: 5px; }
-    ::-webkit-scrollbar-track { background: #0a0a0f; }
-    ::-webkit-scrollbar-thumb { background: #2a2a3e; border-radius: 3px; }
+    ::-webkit-scrollbar-track { background: #060608; }
+    ::-webkit-scrollbar-thumb { background: #1e1e28; border-radius: 3px; }
     @media (max-width: 600px) {
       nav { padding: 1rem 1.5rem; }
       .nav-links { gap: 1rem; }
@@ -112,10 +111,10 @@
       .timeline-line { display: none; }
       footer { padding: 1.5rem; }
     }
-    .highlight { color: #a599ff; }
+    .highlight { color: #c8c8e0; }
     .nav-controls { display: flex; align-items: center; gap: 0.5rem; position: absolute; right: 2.5rem; }
-    .nav-btn { background: rgba(124,106,255,0.08); border: 1px solid rgba(124,106,255,0.2); color: #9999b8; font-family: 'Onest', sans-serif; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.05em; padding: 0.3rem 0.7rem; border-radius: 999px; cursor: pointer; transition: all 0.2s; }
-    .nav-btn:hover { background: rgba(124,106,255,0.18); border-color: #7c6aff; color: #a599ff; }
+    .nav-btn { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #9999b8; font-family: 'Onest', sans-serif; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.05em; padding: 0.3rem 0.7rem; border-radius: 999px; cursor: pointer; transition: all 0.2s; }
+    .nav-btn:hover { background: rgba(255,255,255,0.1); border-color: #ffffff; color: #ffffff; }
   </style>
 </head>
 <body>
@@ -159,7 +158,7 @@
     <div class="section-wrap">
       <div class="section-label" data-es="01 // sobre mí" data-en="01 // about me">01 // sobre mí</div>
       <h2 data-es="Quién soy" data-en="Who I am">Quién soy</h2>
-      <div class="about-grid">
+      <div class="about-grid" data-aos="fade-up">
         <div class="about-text">
           <p data-es="Soy <strong>Saúl Francisco Vázquez del Río</strong>, ingeniero en Tecnologías Computacionales recién egresado del <strong>Tec de Monterrey</strong>, con un minor en Inteligencia Avanzada para Ciencia de Datos." data-en="I'm <strong>Saúl Francisco Vázquez del Río</strong>, a Computer Science Engineer recently graduated from <strong>Tec de Monterrey</strong>, with a minor in Advanced Intelligence for Data Science.">
             Soy <strong>Saúl Francisco Vázquez del Río</strong>, ingeniero en Tecnologías Computacionales recién egresado del <strong>Tec de Monterrey</strong>, con un minor en Inteligencia Avanzada para Ciencia de Datos.
@@ -171,7 +170,7 @@
             He trabajado con equipos reales en proyectos para empresas como Softtek y Arca Continental, y tengo experiencia práctica en procesos ETL, REST APIs, modelos predictivos y aplicaciones web modernas.
           </p>
         </div>
-        <div class="about-stats">
+        <div class="about-stats" data-aos="fade-up" data-aos-delay="100">
           <div class="stat-card"><div class="stat-number">4</div><div class="stat-desc" data-es="años en el Tec de Monterrey" data-en="years at Tec de Monterrey">años en el Tec de Monterrey</div></div>
           <div class="stat-card"><div class="stat-number">5+</div><div class="stat-desc" data-es="proyectos con clientes reales" data-en="projects with real clients">proyectos con clientes reales</div></div>
           <div class="stat-card"><div class="stat-number">2</div><div class="stat-desc" data-es="perfiles: Web Dev + Data" data-en="profiles: Web Dev + Data">perfiles: Web Dev + Data</div></div>
@@ -186,7 +185,7 @@
     <div class="section-wrap">
       <div class="section-label" data-es="02 // stack tecnológico" data-en="02 // tech stack">02 // stack tecnológico</div>
       <h2 data-es="Tecnologías" data-en="Technologies">Tecnologías</h2>
-      <div class="skills-grid">
+      <div class="skills-grid" data-aos="fade-up">
         <div class="skill-chip"><span class="skill-dot"></span>JavaScript</div>
         <div class="skill-chip"><span class="skill-dot"></span>TypeScript</div>
         <div class="skill-chip"><span class="skill-dot"></span>React</div>
@@ -217,7 +216,7 @@
       <div class="projects-list">
 
         <!-- R Studio COVID -->
-        <div class="cv-project">
+        <div class="cv-project" data-aos="fade-up">
           <div class="cv-project-meta">
             <span class="cv-project-period">Feb 2022 — Mar 2022</span>
             <span class="cv-project-type" data-es="Proyecto académico" data-en="Academic project">Proyecto académico</span>
@@ -246,7 +245,7 @@
         </div>
 
         <!-- Clarios Dashboard -->
-        <div class="cv-project">
+        <div class="cv-project" data-aos="fade-up">
           <div class="cv-project-meta">
             <span class="cv-project-period">Sep 2023 — Dic 2023</span>
             <span class="cv-project-type" data-es="Empresa: Clarios" data-en="Company: Clarios">Empresa: Clarios</span>
@@ -273,7 +272,7 @@
         </div>
 
         <!-- Titanic ML -->
-        <div class="cv-project">
+        <div class="cv-project" data-aos="fade-up">
           <div class="cv-project-meta">
             <span class="cv-project-period">Ago 2024 — Sep 2024</span>
             <span class="cv-project-type" data-es="Proyecto académico" data-en="Academic project">Proyecto académico</span>
@@ -300,7 +299,7 @@
         </div>
 
         <!-- FRIDA -->
-        <div class="cv-project">
+        <div class="cv-project" data-aos="fade-up">
           <div class="cv-project-meta">
             <span class="cv-project-period">Ago 2024 — Sep 2024</span>
             <span class="cv-project-type" data-es="Cliente: Softtek" data-en="Client: Softtek">Cliente: Softtek</span>
@@ -327,7 +326,7 @@
         </div>
 
         <!-- Arca Continental -->
-        <div class="cv-project">
+        <div class="cv-project" data-aos="fade-up">
           <div class="cv-project-meta">
             <span class="cv-project-period">Sep 2024 — Dic 2024</span>
             <span class="cv-project-type" data-es="Cliente: Arca Continental" data-en="Client: Arca Continental">Cliente: Arca Continental</span>
@@ -354,7 +353,7 @@
         </div>
 
         <!-- Compilador -->
-        <div class="cv-project">
+        <div class="cv-project" data-aos="fade-up">
           <div class="cv-project-meta">
             <span class="cv-project-period">Abr 2025 — Jun 2025</span>
             <span class="cv-project-type" data-es="Proyecto académico" data-en="Academic project">Proyecto académico</span>
@@ -382,7 +381,7 @@
         </div>
 
         <!-- Netflix Clone -->
-        <div class="cv-project">
+        <div class="cv-project" data-aos="fade-up">
           <div class="cv-project-meta">
             <span class="cv-project-period">Jun 2025 — Jul 2025</span>
             <span class="cv-project-type" data-es="Proyecto personal" data-en="Personal project">Proyecto personal</span>
@@ -413,7 +412,7 @@
         </div>
 
         <!-- GymApp -->
-        <div class="cv-project">
+        <div class="cv-project" data-aos="fade-up">
           <div class="cv-project-meta">
             <span class="cv-project-period">Oct 2025 — Feb 2026</span>
             <span class="cv-project-type" data-es="Proyecto personal" data-en="Personal project">Proyecto personal</span>
@@ -453,7 +452,7 @@
       <div class="section-label" data-es="04 // experiencia" data-en="04 // experience">04 // experiencia</div>
       <h2 data-es="Trayectoria" data-en="Background">Trayectoria</h2>
       <div class="timeline">
-        <div class="timeline-item">
+        <div class="timeline-item" data-aos="fade-up" data-aos-delay="0">
           <div class="timeline-date">Sep 2023 — Dic 2023</div>
           <div class="timeline-line"><div class="timeline-dot"></div></div>
           <div class="timeline-content">
@@ -462,7 +461,7 @@
             <p class="exp-desc" data-es="Brindé soporte al equipo de ventas resolviendo problemas digitales y desarrollando soluciones técnicas para optimizar su flujo de trabajo. Diseñé y construí un dashboard completo manejando extracción de base de datos y el proceso ETL completo. Implementé pipelines de datos en Python para automatizar la extracción, transformación y carga de información." data-en="Provided support to the sales team by solving digital problems and developing technical solutions to optimize their workflow. Designed and built a complete dashboard handling database extraction and the full ETL process. Implemented Python data pipelines to automate the extraction, transformation and loading of information.">Brindé soporte al equipo de ventas resolviendo problemas digitales y desarrollando soluciones técnicas para optimizar su flujo de trabajo. Diseñé y construí un dashboard completo manejando extracción de base de datos y el proceso ETL completo. Implementé pipelines de datos en Python para automatizar la extracción, transformación y carga de información.</p>
           </div>
         </div>
-        <div class="timeline-item">
+        <div class="timeline-item" data-aos="fade-up" data-aos-delay="100">
           <div class="timeline-date">Ago 2021 — Jul 2025</div>
           <div class="timeline-line"><div class="timeline-dot"></div></div>
           <div class="timeline-content">
@@ -478,7 +477,7 @@
   <!-- CONTACT -->
   <section id="contact">
     <div class="section-wrap">
-      <div class="contact-inner">
+      <div class="contact-inner" data-aos="fade-up">
         <div class="section-label" style="justify-content:center" data-es="05 // contacto" data-en="05 // contact">05 // contacto</div>
         <h2 data-es="¿Hablamos?" data-en="Let's talk">¿Hablamos?</h2>
         <p data-es="Estoy abierto a nuevas oportunidades, proyectos freelance o simplemente una buena conversación sobre tecnología. No dudes en escribirme." data-en="I'm open to new opportunities, freelance projects or just a good conversation about technology. Feel free to reach out.">
@@ -504,20 +503,9 @@
     <span data-es="Diseñado y construido por" data-en="Designed and built by">Diseñado y construido por</span> <span>Saúl Vázquez</span> · 2025
   </footer>
 
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
   <script>
-    // ── COPY EMAIL ──
-    function copyEmail() {
-      navigator.clipboard.writeText('saulvazquez2008@gmail.com');
-      const btn = document.getElementById('emailBtn');
-      const txt = document.getElementById('emailText');
-      const original = txt.innerHTML;
-      btn.classList.add('copied');
-      txt.textContent = lang === 'en' ? 'Copied!' : '¡Copiado!';
-      setTimeout(() => {
-        btn.classList.remove('copied');
-        txt.innerHTML = original;
-      }, 2000);
-    }
+    AOS.init({ duration: 700, easing: 'ease-out-cubic', once: true, offset: 60 });
 
     // ── COPY EMAIL ──
     function copyEmail() {
@@ -560,7 +548,7 @@
         if (window.scrollY >= section.offsetTop - 200) current = section.id;
       });
       navLinks.forEach(link => {
-        link.style.color = link.getAttribute('href') === `#${current}` ? '#a599ff' : '';
+        link.style.color = link.getAttribute('href') === `#${current}` ? '#ffffff' : '';
       });
     });
   </script>
