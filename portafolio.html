@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Saúl Vázquez — Full Stack Developer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0f;
+      --surface: #111118;
+      --border: #2a2a3e;
+      --accent: #7c6aff;
+      --accent2: #a599ff;
+      --text: #e2e2f0;
+      --muted: #9999b8;
+      --card: #13131f;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: #0a0a0f;
+      color: #e2e2f0;
+      font-family: 'Onest', sans-serif;
+      font-size: 15px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* NOISE OVERLAY */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* GRADIENT GLOW */
+    .glow-orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(120px);
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.12;
+    }
+    .glow-orb-1 { width: 600px; height: 600px; background: #7c6aff; top: -200px; left: -100px; }
+    .glow-orb-2 { width: 400px; height: 400px; background: #7c6aff; bottom: 10%; right: -100px; opacity: 0.07; }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 1.2rem 4rem;
+      background: rgba(10,10,15,0.8);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid #2a2a3e;
+    }
+
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: #9999b8;
+      text-decoration: none;
+      font-size: 0.8rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: #a599ff; }
+
+    /* SECTIONS */
+    section { position: relative; z-index: 1; }
+
+    /* HERO */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 0 4rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .hero-content { animation: fadeUp 0.9s ease both; }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(124,106,255,0.1);
+      border: 1px solid rgba(124,106,255,0.3);
+      color: #7c6aff;
+      font-size: 0.75rem;
+      padding: 0.35rem 0.9rem;
+      border-radius: 999px;
+      margin-bottom: 1.8rem;
+      letter-spacing: 0.08em;
+    }
+    .hero-tag::before { content: '●'; font-size: 0.5rem; animation: pulse 2s infinite; }
+
+    h1 {
+      font-family: 'Onest', sans-serif;
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.2rem;
+    }
+    h1 .name-accent { color: #7c6aff; }
+    h1 .role-line {
+      display: block;
+      color: #9999b8;
+      font-size: clamp(1.5rem, 3.5vw, 2.5rem);
+      font-weight: 600;
+    }
+
+    .hero-desc {
+      color: #9999b8;
+      max-width: 520px;
+      margin-bottom: 2.5rem;
+      font-size: 0.9rem;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.6rem;
+      border-radius: 8px;
+      font-family: 'Onest', sans-serif;
+      font-size: 0.82rem;
+      text-decoration: none;
+      transition: all 0.25s;
+      cursor: pointer;
+      border: none;
+    }
+    .btn-primary {
+      background: #7c6aff;
+      color: #fff;
+    }
+    .btn-primary:hover { background: #6a58f0; transform: translateY(-2px); box-shadow: 0 8px 30px rgba(124,106,255,0.4); }
+    .btn-ghost {
+      background: transparent;
+      color: #e2e2f0;
+      border: 1px solid #2a2a3e;
+    }
+    .btn-ghost:hover { border-color: #7c6aff; color: #7c6aff; transform: translateY(-2px); }
+
+    /* SECTION WRAPPER */
+    .section-wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 6rem 4rem;
+    }
+
+    .section-label {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      color: #7c6aff;
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      max-width: 60px;
+      height: 1px;
+      background: #7c6aff;
+      opacity: 0.5;
+    }
+
+    h2 {
+      font-family: 'Onest', sans-serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 3rem;
+      color: #e2e2f0;
+    }
+
+    /* ABOUT */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+    .about-text p {
+      color: #9999b8;
+      margin-bottom: 1.2rem;
+      font-size: 0.88rem;
+    }
+    .about-text p strong { color: #e2e2f0; }
+    .about-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    .stat-card {
+      background: #1a1a2e;
+      border: 1px solid #2a2a3e;
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: border-color 0.2s;
+    }
+    .stat-card:hover { border-color: #7c6aff; }
+    .stat-number {
+      font-family: 'Onest', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: #7c6aff;
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+    .stat-desc { color: #9999b8; font-size: 0.78rem; }
+
+    /* SKILLS */
+    #skills { background: #0f0f1a; border-top: 1px solid #2a2a3e; border-bottom: 1px solid #2a2a3e; }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 1rem;
+    }
+    .skill-chip {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: #1a1a2e;
+      border: 1px solid #2a2a3e;
+      border-radius: 10px;
+      padding: 0.75rem 1rem;
+      font-size: 0.82rem;
+      color: #e2e2f0;
+      transition: all 0.2s;
+      cursor: default;
+    }
+    .skill-chip:hover {
+      border-color: #a599ff;
+      color: #a599ff;
+      transform: translateY(-2px);
+    }
+    .skill-dot { width: 7px; height: 7px; border-radius: 50%; background: #a599ff; flex-shrink: 0; }
+
+
+    /* PROJECTS — CV style */
+    .projects-list { display: flex; flex-direction: column; }
+    .cv-project {
+      display: grid;
+      grid-template-columns: 190px 1fr;
+      gap: 0 3rem;
+      padding: 2.5rem 0;
+      border-bottom: 1px solid #2a2a3e;
+      transition: background 0.2s;
+    }
+    .cv-project:first-child { border-top: 1px solid #2a2a3e; }
+    .cv-project:hover { background: rgba(124,106,255,0.03); }
+    .cv-project-meta { display: flex; flex-direction: column; gap: 0.5rem; padding-top: 0.15rem; }
+    .cv-project-period { font-size: 0.75rem; color: #9999b8; letter-spacing: 0.04em; }
+    .cv-project-type {
+      display: inline-block; font-size: 0.68rem; color: #7c6aff;
+      background: rgba(124,106,255,0.1); border: 1px solid rgba(124,106,255,0.2);
+      padding: 0.15rem 0.6rem; border-radius: 999px; letter-spacing: 0.05em; width: fit-content;
+    }
+    .cv-project-links { display: flex; gap: 0.8rem; margin-top: 0.3rem; }
+    .cv-project-link {
+      font-size: 0.73rem; color: #9999b8; text-decoration: none;
+      border-bottom: 1px solid #2a2a3e; padding-bottom: 1px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .cv-project-link:hover { color: #7c6aff; border-color: #7c6aff; }
+    .cv-project-body { display: flex; flex-direction: column; gap: 1rem; }
+    .cv-project-header { display: flex; align-items: baseline; gap: 0.8rem; flex-wrap: wrap; }
+    .cv-project-title { font-size: 1.05rem; font-weight: 700; color: #e2e2f0; letter-spacing: -0.01em; }
+    .cv-project-where { font-size: 0.8rem; color: #a599ff; }
+    .cv-project-desc { color: #9999b8; font-size: 0.85rem; line-height: 1.78; }
+    .cv-project-reasoning {
+      background: rgba(124,106,255,0.05); border-left: 2px solid #7c6aff;
+      padding: 0.9rem 1.1rem; border-radius: 0 8px 8px 0;
+    }
+    .cv-project-reasoning-label {
+      font-size: 0.67rem; color: #7c6aff; letter-spacing: 0.12em;
+      text-transform: uppercase; margin-bottom: 0.45rem; font-weight: 600;
+    }
+    .cv-project-reasoning p { color: #9999b8; font-size: 0.82rem; line-height: 1.75; }
+    .cv-project-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .tag {
+      background: rgba(124,106,255,0.08); border: 1px solid rgba(124,106,255,0.18);
+      color: #7c6aff; font-size: 0.7rem; padding: 0.2rem 0.65rem;
+      border-radius: 6px; font-weight: 500;
+    }
+    @media (max-width: 500px) {
+      .cv-project { grid-template-columns: 1fr; gap: 1rem; }
+    }
+
+    /* EXPERIENCE */
+    .timeline { display: flex; flex-direction: column; gap: 0; }
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 180px 1px 1fr;
+      gap: 0 2rem;
+      padding-bottom: 3rem;
+    }
+    .timeline-date {
+      text-align: right;
+      color: #9999b8;
+      font-size: 0.78rem;
+      padding-top: 0.2rem;
+    }
+    .timeline-line {
+      position: relative;
+      background: #2a2a3e;
+      width: 1px;
+    }
+    .timeline-dot {
+      position: absolute;
+      top: 0.3rem;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: #7c6aff;
+      box-shadow: 0 0 0 3px #0a0a0f, 0 0 0 4px #7c6aff;
+    }
+    .timeline-content { padding-top: 0; }
+    .exp-role {
+      font-family: 'Onest', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: #e2e2f0;
+      margin-bottom: 0.2rem;
+    }
+    .exp-company {
+      color: #a599ff;
+      font-size: 0.8rem;
+      margin-bottom: 0.8rem;
+    }
+    .exp-desc { color: #9999b8; font-size: 0.82rem; }
+
+    /* CONTACT */
+    #contact { background: #0f0f1a; border-top: 1px solid #2a2a3e; }
+    .contact-inner {
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .contact-inner p { color: #9999b8; font-size: 0.88rem; margin-bottom: 2.5rem; }
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .contact-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: #1a1a2e;
+      border: 1px solid #2a2a3e;
+      color: #e2e2f0;
+      padding: 0.8rem 1.6rem;
+      border-radius: 10px;
+      text-decoration: none;
+      font-size: 0.82rem;
+      transition: all 0.2s;
+    }
+    .contact-btn:hover { border-color: #7c6aff; color: #7c6aff; transform: translateY(-2px); }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid #2a2a3e;
+      padding: 2rem 4rem;
+      text-align: center;
+      color: #9999b8;
+      font-size: 0.75rem;
+      position: relative;
+      z-index: 1;
+    }
+    footer span { color: #7c6aff; }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    .fade-in {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    /* SCROLLBAR */
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: #0a0a0f; }
+    ::-webkit-scrollbar-thumb { background: #2a2a3e; border-radius: 3px; }
+
+    /* RESPONSIVE */
+    @media (max-width: 600px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { gap: 1rem; }
+      #hero, .section-wrap { padding-left: 1.5rem; padding-right: 1.5rem; }
+      .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .timeline-item { grid-template-columns: 1fr; }
+      .timeline-date { text-align: left; }
+      .timeline-line { display: none; }
+      footer { padding: 1.5rem; }
+    }
+
+    /* CURSOR HIGHLIGHT */
+    .highlight { color: #a599ff; }
+
+    /* ── NAV CONTROLS ── */
+    nav { position: relative; }
+    .nav-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      position: absolute;
+      right: 2.5rem;
+    }
+    .nav-btn {
+      background: rgba(124,106,255,0.08);
+      border: 1px solid rgba(124,106,255,0.2);
+      color: #9999b8;
+      font-family: 'Onest', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      padding: 0.3rem 0.7rem;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .nav-btn:hover {
+      background: rgba(124,106,255,0.18);
+      border-color: #7c6aff;
+      color: #a599ff;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="glow-orb glow-orb-1"></div>
+  <div class="glow-orb glow-orb-2"></div>
+
+  <!-- NAV -->
+  <nav>
+    <ul class="nav-links">
+      <li><a href="#about" data-es="sobre mí" data-en="about">sobre mí</a></li>
+      <li><a href="#skills">stack</a></li>
+      <li><a href="#projects" data-es="proyectos" data-en="projects">proyectos</a></li>
+      <li><a href="#experience" data-es="experiencia" data-en="experience">experiencia</a></li>
+      <li><a href="#contact" data-es="contacto" data-en="contact">contacto</a></li>
+    </ul>
+    <div class="nav-controls">
+      <button class="nav-btn" id="langBtn" title="Switch language">EN</button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-content">
+      <div class="hero-tag" data-es="Disponible para proyectos" data-en="Available for projects">Disponible para proyectos</div>
+      <h1>
+        <span data-es="Hola, soy " data-en="Hi, I'm ">Hola, soy </span><span class="name-accent">Saúl</span>
+        <span class="role-line">Full Stack Developer</span>
+      </h1>
+      <p class="hero-desc" data-es="Construyo productos digitales con código limpio y experiencias que importan. Del backend al frontend, de la idea al deploy." data-en="I build digital products with clean code and experiences that matter. From backend to frontend, from idea to deployment.">
+        Construyo productos digitales con código limpio y experiencias que importan.
+        Del backend al frontend, de la idea al deploy.
+      </p>
+      <div class="hero-cta">
+        <a href="#projects" class="btn btn-primary" data-es="Ver proyectos →" data-en="View projects →">Ver proyectos →</a>
+        <a href="#contact" class="btn btn-ghost" data-es="Contáctame" data-en="Contact me">Contáctame</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-wrap">
+      <div class="section-label" data-es="01 // sobre mí" data-en="01 // about me">01 // sobre mí</div>
+      <h2 data-es="Quién soy" data-en="Who I am">Quién soy</h2>
+      <div class="about-grid">
+        <div class="about-text">
+          <p data-es="Soy <strong>Saúl Francisco Vázquez del Río</strong>, ingeniero en Tecnologías Computacionales recién egresado del <strong>Tec de Monterrey</strong>, con un minor en Inteligencia Avanzada para Ciencia de Datos." data-en="I'm <strong>Saúl Francisco Vázquez del Río</strong>, a Computer Science Engineer recently graduated from <strong>Tec de Monterrey</strong>, with a minor in Advanced Intelligence for Data Science.">
+            Soy <strong>Saúl Francisco Vázquez del Río</strong>, ingeniero en Tecnologías Computacionales
+            recién egresado del <strong>Tec de Monterrey</strong>, con un minor en Inteligencia Avanzada para Ciencia de Datos.
+          </p>
+          <p data-es="Me muevo con comodidad entre el <span class='highlight'>desarrollo web full stack</span> y el <span class='highlight'>análisis de datos / ML</span>. Disfruto construir productos que combinan una buena experiencia de usuario con decisiones técnicas sólidas en el backend." data-en="I move comfortably between <span class='highlight'>full stack web development</span> and <span class='highlight'>data analysis / ML</span>. I enjoy building products that combine great user experience with solid technical decisions on the backend.">
+            Me muevo con comodidad entre el <span class="highlight">desarrollo web full stack</span> y el
+            <span class="highlight">análisis de datos / ML</span>. Disfruto construir productos que combinan
+            una buena experiencia de usuario con decisiones técnicas sólidas en el backend.
+          </p>
+          <p data-es="He trabajado con equipos reales en proyectos para empresas como Softtek y Arca Continental, y tengo experiencia práctica en procesos ETL, REST APIs, modelos predictivos y aplicaciones web modernas." data-en="I've worked with real teams on projects for companies like Softtek and Arca Continental, with hands-on experience in ETL processes, REST APIs, predictive models and modern web applications.">
+            He trabajado con equipos reales en proyectos para empresas como Softtek y Arca Continental,
+            y tengo experiencia práctica en procesos ETL, REST APIs, modelos predictivos y aplicaciones web modernas.
+          </p>
+        </div>
+        <div class="about-stats">
+          <div class="stat-card">
+            <div class="stat-number">4</div>
+            <div class="stat-desc" data-es="años en el Tec de Monterrey" data-en="years at Tec de Monterrey">años en el Tec de Monterrey</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">5+</div>
+            <div class="stat-desc" data-es="proyectos con clientes reales" data-en="projects with real clients">proyectos con clientes reales</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">2</div>
+            <div class="stat-desc" data-es="perfiles: Web Dev + Data" data-en="profiles: Web Dev + Data">perfiles: Web Dev + Data</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">B2</div>
+            <div class="stat-desc" data-es="nivel de inglés" data-en="English level">nivel de inglés</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="section-wrap">
+      <div class="section-label" data-es="02 // stack tecnológico" data-en="02 // tech stack">02 // stack tecnológico</div>
+      <h2 data-es="Tecnologías" data-en="Technologies">Tecnologías</h2>
+      <div class="skills-grid">
+        <div class="skill-chip"><span class="skill-dot"></span>JavaScript</div>
+        <div class="skill-chip"><span class="skill-dot"></span>TypeScript</div>
+        <div class="skill-chip"><span class="skill-dot"></span>React</div>
+        <div class="skill-chip"><span class="skill-dot"></span>Node.js</div>
+        <div class="skill-chip"><span class="skill-dot"></span>Express.js</div>
+        <div class="skill-chip"><span class="skill-dot"></span>Python</div>
+        <div class="skill-chip"><span class="skill-dot"></span>Tailwind CSS</div>
+        <div class="skill-chip"><span class="skill-dot"></span>MongoDB</div>
+        <div class="skill-chip"><span class="skill-dot"></span>MySQL</div>
+        <div class="skill-chip"><span class="skill-dot"></span>Firebase</div>
+        <div class="skill-chip"><span class="skill-dot"></span>PostgreSQL</div>
+        <div class="skill-chip"><span class="skill-dot"></span>REST APIs</div>
+        <div class="skill-chip"><span class="skill-dot"></span>Scikit-Learn</div>
+        <div class="skill-chip"><span class="skill-dot"></span>Pandas</div>
+        <div class="skill-chip"><span class="skill-dot"></span>FastAPI</div>
+        <div class="skill-chip"><span class="skill-dot"></span>Git / GitHub</div>
+        <div class="skill-chip"><span class="skill-dot"></span>Power BI</div>
+        <div class="skill-chip"><span class="skill-dot"></span>Scrum</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="section-wrap">
+      <div class="section-label" data-es="03 // proyectos" data-en="03 // projects">03 // proyectos</div>
+      <h2 data-es="Lo que he construido" data-en="What I've built">Lo que he construido</h2>
+      <div class="projects-list">
+
+        <!-- R Studio COVID -->
+        <div class="cv-project">
+          <div class="cv-project-meta">
+            <span class="cv-project-period">Feb 2022 — Mar 2022</span>
+            <span class="cv-project-type" data-es="Proyecto académico" data-en="Academic project">Proyecto académico</span>
+          </div>
+          <div class="cv-project-body">
+            <div class="cv-project-header">
+              <span class="cv-project-title" data-es="Análisis de COVID-19 — México, Inglaterra y Rusia" data-en="COVID-19 Analysis — Mexico, England and Russia">Análisis de COVID-19 — México, Inglaterra y Rusia</span>
+              <span class="cv-project-where">— Tec de Monterrey</span>
+            </div>
+            <p class="cv-project-desc" data-es="Análisis estadístico comparativo del impacto del COVID-19 en tres países: México, Inglaterra y Rusia. Estudié métricas clave como número de contagios y muertes por coronavirus en un período de tiempo específico. Generé un reporte con gráficas por país para identificar cuál tuvo la mejor respuesta ante la pandemia, presentando los hallazgos de forma visual y clara." data-en="Comparative statistical analysis of COVID-19's impact across three countries: Mexico, England and Russia. I studied key metrics such as infection and death counts within a specific time period. Generated a report with charts per country to identify which had the best response to the pandemic, presenting findings in a clear, visual way.">
+              Análisis estadístico comparativo del impacto del COVID-19 en tres países: México, Inglaterra
+              y Rusia. Estudié métricas clave como número de contagios y muertes por coronavirus en un
+              período de tiempo específico. Generé un reporte con gráficas por país para identificar
+              cuál tuvo la mejor respuesta ante la pandemia, presentando los hallazgos de forma visual y clara.
+            </p>
+            <div class="cv-project-reasoning">
+              <div class="cv-project-reasoning-label" data-es="// Por qué estas tecnologías" data-en="// Why these technologies">// Por qué estas tecnologías</div>
+              <p data-es="<strong>R Studio</strong> es la herramienta estándar para análisis estadístico y visualización de datos en ciencias de la salud y epidemiología. Su ecosistema de paquetes como ggplot2 permite construir gráficas de calidad publicable con pocas líneas de código, ideal para comparar tendencias entre países en el mismo reporte." data-en="<strong>R Studio</strong> is the standard tool for statistical analysis and data visualization in health sciences and epidemiology. Its package ecosystem, including ggplot2, lets you build publication-quality charts with few lines of code — ideal for comparing country-level trends in a single report.">
+                <strong>R Studio</strong> es la herramienta estándar para análisis estadístico y visualización
+                de datos en ciencias de la salud y epidemiología. Su ecosistema de paquetes como ggplot2
+                permite construir gráficas de calidad publicable con pocas líneas de código, ideal para
+                comparar tendencias entre países en el mismo reporte.
+              </p>
+            </div>
+            <div class="cv-project-tags">
+              <span class="tag">R</span>
+              <span class="tag">R Studio</span>
+              <span class="tag" data-es="Análisis estadístico" data-en="Statistical analysis">Análisis estadístico</span>
+              <span class="tag" data-es="Visualización de datos" data-en="Data visualization">Visualización de datos</span>
+              <span class="tag">ggplot2</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Clarios Dashboard -->
+        <div class="cv-project">
+          <div class="cv-project-meta">
+            <span class="cv-project-period">Sep 2023 — Dic 2023</span>
+            <span class="cv-project-type" data-es="Empresa: Clarios" data-en="Company: Clarios">Empresa: Clarios</span>
+          </div>
+          <div class="cv-project-body">
+            <div class="cv-project-header">
+              <span class="cv-project-title" data-es="Dashboard de Ventas — Clarios" data-en="Sales Dashboard — Clarios">Dashboard de Ventas — Clarios</span>
+              <span class="cv-project-where" data-es="— Clarios · Digital Solutions Intern" data-en="— Clarios · Digital Solutions Intern">— Clarios · Digital Solutions Intern</span>
+            </div>
+            <p class="cv-project-desc" data-es="Diseñé y construí un dashboard completo para el equipo de ventas de Clarios manejando desde la extracción de base de datos hasta la presentación visual de los datos. Implementé el proceso ETL completo con Python — extracción automatizada, transformación y carga — para garantizar una entrega de información precisa y oportuna que mejorara la toma de decisiones del equipo comercial." data-en="Designed and built a complete dashboard for Clarios' sales team, handling everything from database extraction to visual data presentation. Implemented the full ETL process with Python — automated extraction, transformation and loading — to ensure accurate, timely data delivery that improved commercial decision-making.">
+              Diseñé y construí un dashboard completo para el equipo de ventas de Clarios manejando
+              desde la extracción de base de datos hasta la presentación visual de los datos. Implementé
+              el proceso ETL completo con Python — extracción automatizada, transformación y carga —
+              para garantizar una entrega de información precisa y oportuna que mejorara la toma de
+              decisiones del equipo comercial.
+            </p>
+            <div class="cv-project-reasoning">
+              <div class="cv-project-reasoning-label" data-es="// Por qué estas tecnologías" data-en="// Why these technologies">// Por qué estas tecnologías</div>
+              <p data-es="<strong>Python</strong> fue el centro del pipeline ETL por su ecosistema de librerías para manipulación de datos (Pandas) y su facilidad para automatizar tareas repetitivas de extracción. <strong>Power BI</strong> para la capa de visualización: el equipo de ventas ya lo usaba, lo que eliminó la curva de aprendizaje y aceleró la adopción del dashboard. La decisión de automatizar el proceso completo en lugar de hacerlo manual redujo errores y liberó tiempo al equipo para enfocarse en análisis en lugar de preparación de datos." data-en="<strong>Python</strong> was the core of the ETL pipeline due to its data manipulation ecosystem (Pandas) and ease of automating repetitive extraction tasks. <strong>Power BI</strong> for the visualization layer: the sales team already used it, eliminating the learning curve and speeding up adoption. Automating the full process instead of doing it manually reduced errors and freed the team to focus on analysis rather than data prep.">
+                <strong>Python</strong> fue el centro del pipeline ETL por su ecosistema de librerías para
+                manipulación de datos (Pandas) y su facilidad para automatizar tareas repetitivas de extracción.
+                <strong>Power BI</strong> para la capa de visualización: el equipo de ventas ya lo usaba,
+                lo que eliminó la curva de aprendizaje y aceleró la adopción del dashboard. La decisión de
+                automatizar el proceso completo en lugar de hacerlo manual redujo errores y liberó tiempo
+                al equipo para enfocarse en análisis en lugar de preparación de datos.
+              </p>
+            </div>
+            <div class="cv-project-tags">
+              <span class="tag">Python</span>
+              <span class="tag">Pandas</span>
+              <span class="tag">ETL</span>
+              <span class="tag">Power BI</span>
+              <span class="tag">SQL</span>
+              <span class="tag">Data Pipeline</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Titanic ML -->
+        <div class="cv-project">
+          <div class="cv-project-meta">
+            <span class="cv-project-period">Ago 2024 — Sep 2024</span>
+            <span class="cv-project-type" data-es="Proyecto académico" data-en="Academic project">Proyecto académico</span>
+          </div>
+          <div class="cv-project-body">
+            <div class="cv-project-header">
+              <span class="cv-project-title">Titanic — Machine Learning from Disaster</span>
+              <span class="cv-project-where">— Tec de Monterrey</span>
+            </div>
+            <p class="cv-project-desc" data-es="Modelo de machine learning para predecir la supervivencia de pasajeros del Titanic. Evaluamos múltiples algoritmos (Árbol de Decisión, Red Neuronal, Regresión Logística y Random Forest), logrando la mayor precisión con Random Forest. Trabajé en la limpieza, transformación y feature engineering del dataset para garantizar la calidad del modelo." data-en="Machine learning model to predict Titanic passenger survival. We evaluated multiple algorithms (Decision Tree, Neural Network, Logistic Regression and Random Forest), achieving the best accuracy with Random Forest. I worked on dataset cleaning, transformation and feature engineering to ensure model quality.">
+              Modelo de machine learning para predecir la supervivencia de pasajeros del Titanic.
+              Evaluamos múltiples algoritmos (Árbol de Decisión, Red Neuronal, Regresión Logística y
+              Random Forest), logrando la mayor precisión con Random Forest. Trabajé en la limpieza,
+              transformación y feature engineering del dataset para garantizar la calidad del modelo.
+            </p>
+            <div class="cv-project-reasoning">
+              <div class="cv-project-reasoning-label" data-es="// Por qué estas tecnologías" data-en="// Why these technologies">// Por qué estas tecnologías</div>
+              <p data-es="La decisión de usar <strong>Random Forest</strong> sobre los demás modelos no fue arbitraria: tras comparar métricas de accuracy, precisión y recall en cada algoritmo, Random Forest generalizó mejor por su naturaleza de ensemble, reduciendo el overfitting que sí presentó el Árbol de Decisión individual. <strong>Scikit-Learn</strong> por su API unificada que nos permitió cambiar de modelo con mínimo refactoring durante la comparación." data-en="The choice of <strong>Random Forest</strong> over other models wasn't arbitrary: after comparing accuracy, precision and recall across algorithms, Random Forest generalized best due to its ensemble nature, reducing the overfitting seen in the single Decision Tree. <strong>Scikit-Learn</strong> for its unified API that let us swap models with minimal refactoring during comparison.">
+                La decisión de usar <strong>Random Forest</strong> sobre los demás modelos no fue arbitraria:
+                tras comparar métricas de accuracy, precisión y recall en cada algoritmo, Random Forest
+                generalizó mejor por su naturaleza de ensemble, reduciendo el overfitting que sí presentó
+                el Árbol de Decisión individual. <strong>Scikit-Learn</strong> por su API unificada que nos
+                permitió cambiar de modelo con mínimo refactoring durante la comparación.
+              </p>
+            </div>
+            <div class="cv-project-tags">
+              <span class="tag">Python</span>
+              <span class="tag">Scikit-Learn</span>
+              <span class="tag">Random Forest</span>
+              <span class="tag">Pandas</span>
+              <span class="tag">Google Colab</span>
+              <span class="tag">ML</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- FRIDA Virtual Assistant -->
+        <div class="cv-project">
+          <div class="cv-project-meta">
+            <span class="cv-project-period">Ago 2024 — Sep 2024</span>
+            <span class="cv-project-type" data-es="Cliente: Softtek" data-en="Client: Softtek">Cliente: Softtek</span>
+          </div>
+          <div class="cv-project-body">
+            <div class="cv-project-header">
+              <span class="cv-project-title" data-es="FRIDA — Asistente Virtual" data-en="FRIDA — Virtual Assistant">FRIDA — Asistente Virtual</span>
+              <span class="cv-project-where">— Tec de Monterrey × Softtek</span>
+            </div>
+            <p class="cv-project-desc" data-es="Aplicación web desarrollada para Softtek que permite a los usuarios cargar documentos PDF, hacerle preguntas a FRIDA sobre el contenido, consultar propiedades del PDF y comparar dos o más archivos. Implementé los métodos REST API para la recuperación y gestión de datos, integré esos endpoints con el frontend, y diseñé por completo la página de análisis. También contribuí al desarrollo del chatbot integrando capacidades de NLP para responder consultas basadas en el contenido de los PDFs." data-en="Web application developed for Softtek that lets users upload PDF documents, ask FRIDA questions about the content, query PDF properties, and compare two or more files. I implemented REST API methods for data retrieval and management, integrated those endpoints with the frontend, and fully designed the analysis page. I also contributed to the chatbot by integrating NLP capabilities to answer queries based on PDF content.">
+              Aplicación web desarrollada para Softtek que permite a los usuarios cargar documentos PDF,
+              hacerle preguntas a FRIDA sobre el contenido, consultar propiedades del PDF y comparar
+              dos o más archivos. Implementé los métodos REST API para la recuperación y gestión de datos,
+              integré esos endpoints con el frontend, y diseñé por completo la página de análisis.
+              También contribuí al desarrollo del chatbot integrando capacidades de NLP para responder
+              consultas basadas en el contenido de los PDFs.
+            </p>
+            <div class="cv-project-reasoning">
+              <div class="cv-project-reasoning-label" data-es="// Por qué estas tecnologías" data-en="// Why these technologies">// Por qué estas tecnologías</div>
+              <p data-es="<strong>React + Tailwind CSS</strong> para construir una interfaz de análisis rápida e iterativa, donde los componentes reutilizables aceleran el trabajo con múltiples vistas de PDF. La integración de <strong>NLP vía API</strong> fue la decisión clave: en lugar de un motor propio, conectamos un modelo externo para que FRIDA respondiera en lenguaje natural, reduciendo el tiempo de desarrollo y enfocando el esfuerzo en la experiencia del usuario." data-en="<strong>React + Tailwind CSS</strong> to build a fast, iterative analysis interface where reusable components speed up work across multiple PDF views. The key decision was integrating <strong>NLP via API</strong>: instead of building our own engine, we connected an external model so FRIDA could answer in natural language — reducing development time and focusing effort on the user experience.">
+                <strong>React + Tailwind CSS</strong> para construir una interfaz de análisis rápida e iterativa,
+                donde los componentes reutilizables aceleran el trabajo con múltiples vistas de PDF.
+                La integración de <strong>NLP vía API</strong> fue la decisión clave: en lugar de un motor propio,
+                conectamos un modelo externo para que FRIDA respondiera en lenguaje natural, reduciendo
+                el tiempo de desarrollo y enfocando el esfuerzo en la experiencia del usuario.
+              </p>
+            </div>
+            <div class="cv-project-tags">
+              <span class="tag">JavaScript</span>
+              <span class="tag">React</span>
+              <span class="tag">Tailwind CSS</span>
+              <span class="tag">REST API</span>
+              <span class="tag">NLP</span>
+              <span class="tag">OpenAI</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Arca Continental clustering -->
+        <div class="cv-project">
+          <div class="cv-project-meta">
+            <span class="cv-project-period">Sep 2024 — Dic 2024</span>
+            <span class="cv-project-type" data-es="Cliente: Arca Continental" data-en="Client: Arca Continental">Cliente: Arca Continental</span>
+          </div>
+          <div class="cv-project-body">
+            <div class="cv-project-header">
+              <span class="cv-project-title" data-es="Segmentación de clientes — Arca Continental" data-en="Customer Segmentation — Arca Continental">Segmentación de clientes — Arca Continental</span>
+              <span class="cv-project-where">— Tec de Monterrey × Arca Continental</span>
+            </div>
+            <p class="cv-project-desc" data-es="Clustering de productos para Arca Continental para identificar clientes potenciales en el lanzamiento de nuevos productos. Segmenté patrones de compra agrupando productos en 12 clusters y 3 sub-clusters por clase económica del cliente. Participé en la limpieza y transformación del dataset y apoyé modelos de IA que predicen ventas en un horizonte de cinco meses." data-en="Product clustering for Arca Continental to identify potential customers for new product launches. I segmented purchasing patterns grouping products into 12 clusters and 3 sub-clusters by customer economic class. I contributed to dataset cleaning and transformation, and supported AI models predicting sales over a five-month horizon.">
+              Clustering de productos para Arca Continental para identificar clientes potenciales en el
+              lanzamiento de nuevos productos. Segmenté patrones de compra agrupando productos en 12 clusters
+              y 3 sub-clusters por clase económica del cliente. Participé en la limpieza y transformación
+              del dataset y apoyé modelos de IA que predicen ventas en un horizonte de cinco meses.
+            </p>
+            <div class="cv-project-reasoning">
+              <div class="cv-project-reasoning-label" data-es="// Por qué estas tecnologías" data-en="// Why these technologies">// Por qué estas tecnologías</div>
+              <p data-es="<strong>Python en Google Colab</strong> permitió colaboración en tiempo real sin fricción de setup. Los algoritmos de clustering de <strong>Scikit-Learn</strong> (K-Means como base) fueron los idóneos para datos tabulares de compras; exploramos múltiples valores de K hasta encontrar la granularidad que tenía sentido de negocio para Arca. <strong>Pandas y Numpy</strong> para toda la transformación del dataset, dado el volumen y la necesidad de operaciones vectorizadas eficientes." data-en="<strong>Python on Google Colab</strong> enabled real-time collaboration with no setup friction. <strong>Scikit-Learn</strong>'s clustering algorithms (K-Means as the base) were ideal for tabular purchase data; we explored multiple K values until finding the granularity that made business sense for Arca. <strong>Pandas and Numpy</strong> for all dataset transformation, given the volume and need for efficient vectorized operations.">
+                <strong>Python en Google Colab</strong> permitió colaboración en tiempo real sin fricción de setup.
+                Los algoritmos de clustering de <strong>Scikit-Learn</strong> (K-Means como base) fueron los idóneos
+                para datos tabulares de compras; exploramos múltiples valores de K hasta encontrar
+                la granularidad que tenía sentido de negocio para Arca. <strong>Pandas y Numpy</strong>
+                para toda la transformación del dataset, dado el volumen y la necesidad de operaciones
+                vectorizadas eficientes.
+              </p>
+            </div>
+            <div class="cv-project-tags">
+              <span class="tag">Python</span>
+              <span class="tag">Scikit-Learn</span>
+              <span class="tag">Pandas</span>
+              <span class="tag">Numpy</span>
+              <span class="tag">Google Colab</span>
+              <span class="tag">Clustering</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Compilador de Código -->
+        <div class="cv-project">
+          <div class="cv-project-meta">
+            <span class="cv-project-period">Abr 2025 — Jun 2025</span>
+            <span class="cv-project-type" data-es="Proyecto académico" data-en="Academic project">Proyecto académico</span>
+          </div>
+          <div class="cv-project-body">
+            <div class="cv-project-header">
+              <span class="cv-project-title" data-es="Compilador de Código" data-en="Code Compiler">Compilador de Código</span>
+              <span class="cv-project-where">— Tec de Monterrey</span>
+            </div>
+            <p class="cv-project-desc" data-es="Compilador personalizado que implementa las tres fases principales del proceso de compilación: análisis léxico, sintáctico y semántico. Construí un árbol semántico visual para que el usuario comprenda cómo el compilador interpreta el código fuente completo, paso a paso." data-en="Custom compiler implementing the three main phases of the compilation process: lexical, syntactic and semantic analysis. I built a visual semantic tree so users can understand how the compiler interprets source code step by step.">
+              Compilador personalizado que implementa las tres fases principales del proceso de compilación:
+              análisis léxico, sintáctico y semántico. Construí un árbol semántico visual para que el usuario
+              comprenda cómo el compilador interpreta el código fuente completo, paso a paso.
+            </p>
+            <div class="cv-project-reasoning">
+              <div class="cv-project-reasoning-label" data-es="// Por qué estas tecnologías" data-en="// Why these technologies">// Por qué estas tecnologías</div>
+              <p data-es="<strong>Python</strong> fue la elección principal por su legibilidad y la velocidad de prototipado en tareas de procesamiento de texto. <strong>ANTLR</strong> es el estándar de la industria para construir lexers y parsers; usarlo en lugar de implementar la gramática desde cero nos permitió enfocarnos en la lógica semántica, que era el verdadero reto del proyecto. La visualización del árbol semántico se diseñó pensando en la experiencia del usuario final estudiante." data-en="<strong>Python</strong> was the main choice for its readability and prototyping speed on text processing tasks. <strong>ANTLR</strong> is the industry standard for building lexers and parsers; using it instead of implementing the grammar from scratch let us focus on the semantic logic, which was the real challenge. The semantic tree visualization was designed with the student end-user experience in mind.">
+                <strong>Python</strong> fue la elección principal por su legibilidad y la velocidad de prototipado
+                en tareas de procesamiento de texto. <strong>ANTLR</strong> es el estándar de la industria para
+                construir lexers y parsers; usarlo en lugar de implementar la gramática desde cero nos permitió
+                enfocarnos en la lógica semántica, que era el verdadero reto del proyecto. La visualización
+                del árbol semántico se diseñó pensando en la experiencia del usuario final estudiante.
+              </p>
+            </div>
+            <div class="cv-project-tags">
+              <span class="tag">Python</span>
+              <span class="tag">ANTLR</span>
+              <span class="tag">Lexer</span>
+              <span class="tag">Parser</span>
+              <span class="tag" data-es="Árbol semántico" data-en="Semantic tree">Árbol semántico</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Netflix Clone -->
+        <div class="cv-project">
+          <div class="cv-project-meta">
+            <span class="cv-project-period">Jun 2025 — Jul 2025</span>
+            <span class="cv-project-type" data-es="Proyecto personal" data-en="Personal project">Proyecto personal</span>
+            <div class="cv-project-links">
+              <a href="https://github.com/SaulVaz/Netflix-Clone" target="_blank" class="cv-project-link">GitHub ↗</a>
+            </div>
+          </div>
+          <div class="cv-project-body">
+            <div class="cv-project-header">
+              <span class="cv-project-title">Netflix Clone</span>
+              <span class="cv-project-where" data-es="— Proyecto personal" data-en="— Personal project">— Proyecto personal</span>
+            </div>
+            <p class="cv-project-desc" data-es="Clon responsivo e interactivo de Netflix que permite a los usuarios ver trailers de películas y gestionar múltiples perfiles. Construí el frontend completo con Vite, React y Tailwind CSS, y el backend con Node.js y Express.js estructurado como una REST API bien organizada. Integré MongoDB con Mongoose para el modelado de datos y configuré CORS para el consumo seguro de la API desde el cliente React." data-en="Responsive and interactive Netflix clone that lets users watch movie trailers and manage multiple profiles. I built the full frontend with Vite, React and Tailwind CSS, and the backend with Node.js and Express.js structured as a well-organized REST API. Integrated MongoDB with Mongoose for data modeling and configured CORS for secure API consumption from the React client.">
+              Clon responsivo e interactivo de Netflix que permite a los usuarios ver trailers de películas
+              y gestionar múltiples perfiles. Construí el frontend completo con Vite, React y Tailwind CSS,
+              y el backend con Node.js y Express.js estructurado como una REST API bien organizada.
+              Integré MongoDB con Mongoose para el modelado de datos y configuré CORS para el consumo
+              seguro de la API desde el cliente React.
+            </p>
+            <div class="cv-project-reasoning">
+              <div class="cv-project-reasoning-label" data-es="// Por qué estas tecnologías" data-en="// Why these technologies">// Por qué estas tecnologías</div>
+              <p data-es="Elegí <strong>Vite + React</strong> por su rapidez de desarrollo y el ecosistema maduro para UIs complejas. <strong>TypeScript</strong> en el backend para garantizar type-safety en los modelos y evitar errores en tiempo de ejecución. <strong>MongoDB con Mongoose</strong> fue la elección natural para datos de perfiles y contenido multimedia, donde el esquema flexible es una ventaja. <strong>Express.js</strong> por su minimalismo y facilidad para estructurar rutas REST de forma clara." data-en="I chose <strong>Vite + React</strong> for its development speed and mature ecosystem for complex UIs. <strong>TypeScript</strong> on the backend to ensure type-safety in models and avoid runtime errors. <strong>MongoDB with Mongoose</strong> was the natural choice for profile and multimedia data, where a flexible schema is an advantage. <strong>Express.js</strong> for its minimalism and ease of structuring REST routes clearly.">
+                Elegí <strong>Vite + React</strong> por su rapidez de desarrollo y el ecosistema maduro para UIs complejas.
+                <strong>TypeScript</strong> en el backend para garantizar type-safety en los modelos y evitar errores en tiempo de ejecución.
+                <strong>MongoDB con Mongoose</strong> fue la elección natural para datos de perfiles y contenido multimedia,
+                donde el esquema flexible es una ventaja. <strong>Express.js</strong> por su minimalismo y facilidad para
+                estructurar rutas REST de forma clara.
+              </p>
+            </div>
+            <div class="cv-project-tags">
+              <span class="tag">React</span>
+              <span class="tag">Vite</span>
+              <span class="tag">Node.js</span>
+              <span class="tag">Express.js</span>
+              <span class="tag">TypeScript</span>
+              <span class="tag">MongoDB</span>
+              <span class="tag">Mongoose</span>
+              <span class="tag">Tailwind CSS</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- GymApp -->
+        <div class="cv-project">
+          <div class="cv-project-meta">
+            <span class="cv-project-period">Oct 2025 — Feb 2026</span>
+            <span class="cv-project-type" data-es="Proyecto personal" data-en="Personal project">Proyecto personal</span>
+            <div class="cv-project-links">
+              <a href="https://github.com/SaulVaz/Aplicacion-Movil-GymApp" target="_blank" class="cv-project-link">GitHub ↗</a>
+            </div>
+          </div>
+          <div class="cv-project-body">
+            <div class="cv-project-header">
+              <span class="cv-project-title" data-es="GymApp — Aplicación Móvil Full Stack" data-en="GymApp — Full Stack Mobile App">GymApp — Aplicación Móvil Full Stack</span>
+              <span class="cv-project-where" data-es="— Proyecto personal" data-en="— Personal project">— Proyecto personal</span>
+            </div>
+            <p class="cv-project-desc" data-es="Aplicación móvil multiplataforma completa para gestión de rutinas de gimnasio. Construí una REST API con más de 20 endpoints que maneja autenticación JWT con roles, CRUD completo de rutinas, catálogo de 19 ejercicios por grupos musculares, sistema de favoritos y registro de sesiones con historial detallado de progreso. El frontend móvil incluye autenticación persistente, entrenamiento en tiempo real con registro de peso/reps y estadísticas de progreso. Base de datos modelada con 8 tablas relacionales en PostgreSQL." data-en="Complete cross-platform mobile app for gym routine management. I built a REST API with 20+ endpoints handling JWT authentication with roles, full CRUD for routines, a catalog of 19 exercises by muscle group, a favorites system, and session tracking with detailed progress history. The mobile frontend includes persistent auth, real-time workout tracking with weight/reps logging and progress stats. Database modeled with 8 relational tables in PostgreSQL.">
+              Aplicación móvil multiplataforma completa para gestión de rutinas de gimnasio. Construí una
+              REST API con más de 20 endpoints que maneja autenticación JWT con roles, CRUD completo de
+              rutinas, catálogo de 19 ejercicios por grupos musculares, sistema de favoritos y registro
+              de sesiones con historial detallado de progreso. El frontend móvil incluye autenticación
+              persistente, entrenamiento en tiempo real con registro de peso/reps y estadísticas de progreso.
+              Base de datos modelada con 8 tablas relacionales en PostgreSQL.
+            </p>
+            <div class="cv-project-reasoning">
+              <div class="cv-project-reasoning-label" data-es="// Por qué estas tecnologías" data-en="// Why these technologies">// Por qué estas tecnologías</div>
+              <p data-es="<strong>React Native + Expo</strong> para desarrollo móvil multiplataforma desde una sola base de código — iOS y Android sin duplicar lógica. <strong>PostgreSQL con Prisma</strong> fue clave: la naturaleza relacional de los datos (usuarios → rutinas → ejercicios → sesiones → sets) exigía un esquema tipado y consultas JOIN eficientes, imposibles de lograr limpiamente con una BD NoSQL. <strong>JWT con bcrypt</strong> para autenticación stateless que escala sin sesiones en servidor. <strong>Prisma ORM</strong> para type-safety en las queries y migraciones controladas del schema." data-en="<strong>React Native + Expo</strong> for cross-platform mobile development from a single codebase — iOS and Android without duplicating logic. <strong>PostgreSQL with Prisma</strong> was key: the relational nature of the data (users → routines → exercises → sessions → sets) demanded a typed schema and efficient JOIN queries, impossible to achieve cleanly with a NoSQL DB. <strong>JWT with bcrypt</strong> for stateless auth that scales without server-side sessions. <strong>Prisma ORM</strong> for type-safety in queries and controlled schema migrations.">
+                <strong>React Native + Expo</strong> para desarrollo móvil multiplataforma desde una sola
+                base de código — iOS y Android sin duplicar lógica. <strong>PostgreSQL con Prisma</strong>
+                fue clave: la naturaleza relacional de los datos (usuarios → rutinas → ejercicios → sesiones →
+                sets) exigía un esquema tipado y consultas JOIN eficientes, imposibles de lograr limpiamente
+                con una BD NoSQL. <strong>JWT con bcrypt</strong> para autenticación stateless que escala
+                sin sesiones en servidor. <strong>Prisma ORM</strong> para type-safety en las queries y
+                migraciones controladas del schema.
+              </p>
+            </div>
+            <div class="cv-project-tags">
+              <span class="tag">React Native</span>
+              <span class="tag">Expo</span>
+              <span class="tag">Node.js</span>
+              <span class="tag">Express</span>
+              <span class="tag">PostgreSQL</span>
+              <span class="tag">Prisma</span>
+              <span class="tag">JWT</span>
+              <span class="tag">TypeScript</span>
+              <span class="tag">Axios</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="section-wrap">
+      <div class="section-label" data-es="04 // experiencia" data-en="04 // experience">04 // experiencia</div>
+      <h2 data-es="Trayectoria" data-en="Background">Trayectoria</h2>
+      <div class="timeline">
+
+        <div class="timeline-item">
+          <div class="timeline-date">Sep 2023 — Dic 2023</div>
+          <div class="timeline-line"><div class="timeline-dot"></div></div>
+          <div class="timeline-content">
+            <div class="exp-role">Digital Solutions Intern</div>
+            <div class="exp-company">Clarios · Monterrey, México</div>
+            <p class="exp-desc" data-es="Brindé soporte al equipo de ventas resolviendo problemas digitales y desarrollando soluciones técnicas para optimizar su flujo de trabajo. Diseñé y construí un dashboard completo manejando extracción de base de datos y el proceso ETL completo. Implementé pipelines de datos en Python para automatizar la extracción, transformación y carga de información." data-en="Provided support to the sales team by solving digital problems and developing technical solutions to optimize their workflow. Designed and built a complete dashboard handling database extraction and the full ETL process. Implemented Python data pipelines to automate the extraction, transformation and loading of information.">Brindé soporte al equipo de ventas resolviendo problemas digitales y desarrollando soluciones técnicas para optimizar su flujo de trabajo. Diseñé y construí un dashboard completo manejando extracción de base de datos y el proceso ETL completo. Implementé pipelines de datos en Python para automatizar la extracción, transformación y carga de información.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-date">Ago 2021 — Jul 2025</div>
+          <div class="timeline-line"><div class="timeline-dot"></div></div>
+          <div class="timeline-content">
+            <div class="exp-role" data-es="Ingeniería en Tecnologías Computacionales" data-en="B.S. in Computer Technology Engineering">Ingeniería en Tecnologías Computacionales</div>
+            <div class="exp-company" data-es="Tecnológico de Monterrey (ITESM) · Minor en IA para Ciencia de Datos" data-en="Tecnológico de Monterrey (ITESM) · Minor in AI for Data Science">Tecnológico de Monterrey (ITESM) · Minor en IA para Ciencia de Datos</div>
+            <p class="exp-desc" data-es="Formación en desarrollo de software, estructuras de datos, machine learning y sistemas distribuidos. Minor en Inteligencia Avanzada para Ciencia de Datos I y II, con enfoque en modelos predictivos y análisis de datos." data-en="Training in software development, data structures, machine learning and distributed systems. Minor in Advanced Intelligence for Data Science I and II, focused on predictive models and data analysis.">Formación en desarrollo de software, estructuras de datos, machine learning y sistemas distribuidos. Minor en Inteligencia Avanzada para Ciencia de Datos I y II, con enfoque en modelos predictivos y análisis de datos.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-wrap">
+      <div class="contact-inner">
+        <div class="section-label" style="justify-content:center" data-es="05 // contacto" data-en="05 // contact">05 // contacto</div>
+        <h2 data-es="¿Hablamos?" data-en="Let's talk">¿Hablamos?</h2>
+        <p data-es="Estoy abierto a nuevas oportunidades, proyectos freelance o simplemente una buena conversación sobre tecnología. No dudes en escribirme." data-en="I'm open to new opportunities, freelance projects or just a good conversation about technology. Feel free to reach out.">
+          Estoy abierto a nuevas oportunidades, proyectos freelance o simplemente
+          una buena conversación sobre tecnología. No dudes en escribirme.
+        </p>
+        <div class="contact-links">
+          <a href="mailto:saulvazquez2008@gmail.com" class="contact-btn">
+            <span>✉</span> saulvazquez2008@gmail.com
+          </a>
+          <a href="https://www.linkedin.com/in/saul-vazquez-del-rio/" target="_blank" class="contact-btn">
+            <span>in</span> LinkedIn
+          </a>
+          <a href="https://github.com/SaulVaz" target="_blank" class="contact-btn">
+            <span>⌥</span> GitHub
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span data-es="Diseñado y construido por" data-en="Designed and built by">Diseñado y construido por</span> <span>Saúl Vázquez</span> · 2025
+  </footer>
+
+  <script>
+    // ── LANGUAGE TOGGLE ──
+    const langBtn = document.getElementById('langBtn');
+    let lang = 'es';
+
+    function applyLang(l) {
+      document.querySelectorAll('[data-es]').forEach(el => {
+        el.innerHTML = l === 'en' ? el.dataset.en : el.dataset.es;
+      });
+      document.documentElement.lang = l === 'en' ? 'en' : 'es';
+      langBtn.textContent = l === 'en' ? 'ES' : 'EN';
+    }
+
+    langBtn.addEventListener('click', () => {
+      lang = lang === 'es' ? 'en' : 'es';
+      applyLang(lang);
+    });
+
+    // ── ACTIVE NAV HIGHLIGHT ──
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-links a');
+
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(section => {
+        if (window.scrollY >= section.offsetTop - 200) current = section.id;
+      });
+      navLinks.forEach(link => {
+        link.style.color = link.getAttribute('href') === `#${current}` ? '#a599ff' : '';
+      });
+    });
+  </script>
+</body>
+</html>
