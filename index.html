@@ -672,6 +672,49 @@
           </div>
         </div>
 
+        <!-- SentiMX -->
+        <div class="cv-project" data-aos="fade-up">
+          <div class="cv-project-meta">
+            <span class="cv-project-period">May 2026 — Jun 2026</span>
+            <span class="cv-project-type" data-es="Proyecto personal" data-en="Personal project">Proyecto personal</span>
+            <div class="cv-project-links">
+              <a href="https://github.com/SaulVaz/sentimx-api" target="_blank" class="cv-project-link">API GitHub ↗</a>
+              <a href="https://github.com/SaulVaz/sentimx-frontend" target="_blank" class="cv-project-link">Frontend GitHub ↗</a>
+              <a href="https://sentimx-frontend-ivory.vercel.app" target="_blank" class="cv-project-link">Demo ↗</a>
+            </div>
+          </div>
+          <div class="cv-project-body">
+            <div class="cv-project-header">
+              <span class="cv-project-title" data-es="SentiMX — Análisis de Sentimientos en Español" data-en="SentiMX — Spanish Sentiment Analysis">SentiMX — Análisis de Sentimientos en Español</span>
+              <span class="cv-project-where" data-es="— Proyecto personal" data-en="— Personal project">— Proyecto personal</span>
+            </div>
+            <p class="cv-project-desc" data-es="Herramienta de NLP para analizar el sentimiento de reviews en español. Incluye una fase de investigación ML donde comparé TF-IDF + SVM (66.7% accuracy) contra pysentimiento con BETO fine-tuned (90.5% accuracy), seleccionando el modelo pre-entrenado para producción. El backend es una REST API con FastAPI deployada en Hugging Face Spaces con Docker, y el frontend es un dashboard interactivo en React con análisis de texto individual y análisis masivo de CSVs con gráficas de distribución." data-en="NLP tool for sentiment analysis of Spanish-language reviews. Includes an ML research phase comparing TF-IDF + SVM (66.7% accuracy) against pysentimiento with fine-tuned BETO (90.5% accuracy), selecting the pre-trained model for production. The backend is a REST API built with FastAPI deployed to Hugging Face Spaces with Docker, and the frontend is an interactive React dashboard supporting individual text analysis and bulk CSV analysis with distribution charts.">
+              Herramienta de NLP para analizar el sentimiento de reviews en español. Comparé TF-IDF + SVM (66.7% accuracy) contra pysentimiento con BETO fine-tuned (90.5% accuracy). Backend con FastAPI deployado en Hugging Face Spaces con Docker y frontend dashboard en React con análisis individual y masivo de CSVs.
+            </p>
+            <div class="cv-project-reasoning">
+              <div class="cv-project-reasoning-label" data-es="// Por qué estas tecnologías" data-en="// Why these technologies">// Por qué estas tecnologías</div>
+              <p data-es="<strong>pysentimiento con BETO</strong> fue seleccionado sobre Scikit-Learn tras comparar métricas — BETO fue entrenado con millones de tweets en español y logró 90.5% de accuracy vs 66.7% del mejor modelo desde cero, con una diferencia especialmente notable en la clase neutro (F1: 0.74 vs 0.00). <strong>FastAPI</strong> por su generación automática de documentación Swagger, ideal para una API pública de portafolio. <strong>Docker en Hugging Face Spaces</strong> como alternativa a Render y Railway que fallaron por límite de memoria — Spaces está diseñado para modelos ML y tiene más recursos disponibles en el plan gratuito." data-en="<strong>pysentimiento with BETO</strong> was selected over Scikit-Learn after comparing metrics — BETO was trained on millions of Spanish tweets and achieved 90.5% accuracy vs 66.7% for the best from-scratch model, with an especially notable difference on the neutral class (F1: 0.74 vs 0.00). <strong>FastAPI</strong> for its automatic Swagger documentation generation, ideal for a public portfolio API. <strong>Docker on Hugging Face Spaces</strong> as an alternative to Render and Railway which failed due to memory limits — Spaces is designed for ML models and has more resources available on the free plan.">
+                <strong>pysentimiento con BETO</strong> fue seleccionado tras comparar métricas — 90.5% vs 66.7% del mejor modelo desde cero, con diferencia especialmente notable en la clase neutro (F1: 0.74 vs 0.00). <strong>FastAPI</strong> por su Swagger automático, ideal para una API pública. <strong>Docker en Hugging Face Spaces</strong> como alternativa a Render y Railway que fallaron por límite de memoria.
+              </p>
+            </div>
+            <div class="cv-project-tags">
+              <span class="tag"><svg width="14" height="14" viewBox="0 0 24 24" fill="#3776AB"><path d="M14.25.18l.9.2.73.26.59.3.45.32.34.34.25.34.16.33.1.3.04.26.02.2-.01.13V8.5l-.05.63-.13.55-.21.46-.26.38-.3.31-.33.25-.35.19-.35.14-.33.1-.3.07-.26.04-.21.02H8.77l-.69.05-.59.14-.5.22-.41.27-.33.32-.27.35-.2.36-.15.37-.1.35-.07.32-.04.27-.02.21v3.06H3.17l-.21-.03-.28-.07-.32-.12-.35-.18-.36-.26-.36-.36-.35-.46-.32-.59-.28-.73-.21-.88-.14-1.05-.05-1.23.06-1.22.16-1.04.24-.87.32-.71.36-.57.4-.44.42-.33.42-.24.4-.16.36-.1.32-.05.24-.01h.16l.06.01h8.16v-.83H6.18l-.01-2.75-.02-.37.05-.34.11-.31.17-.28.25-.26.31-.23.38-.2.44-.18.51-.15.58-.12.64-.1.71-.06.77-.04.84-.02 1.27.05 1.07.13zm-6.3 1.98l-.23.33-.08.41.08.41.23.34.33.22.41.09.41-.09.33-.22.23-.34.08-.41-.08-.41-.23-.33-.33-.22-.41-.09-.41.09-.33.22zM21.1 6.11l.28.06.32.12.35.18.36.27.36.35.35.47.32.59.28.73.21.88.14 1.04.05 1.23-.06 1.23-.16 1.04-.24.86-.32.71-.36.57-.4.45-.42.33-.42.24-.4.16-.36.09-.32.05-.24.02-.16-.01h-8.22v.82h5.84l.01 2.76.02.36-.05.34-.11.31-.17.29-.25.25-.31.24-.38.2-.44.17-.51.15-.58.13-.64.09-.71.07-.77.04-.84.01-1.27-.04-1.07-.14-.9-.2-.73-.25-.59-.3-.45-.33-.34-.34-.25-.34-.16-.33-.1-.3-.04-.25-.02-.2.01-.13v-5.34l.05-.64.13-.54.21-.46.26-.38.3-.32.33-.24.35-.2.35-.14.33-.1.3-.06.26-.04.21-.02.13-.01h5.84l.69-.05.59-.14.5-.21.41-.28.33-.32.27-.35.2-.36.15-.36.1-.35.07-.32.04-.28.02-.21V6.07h2.09l.14.04zm-6.47 14.25l-.23.33-.08.41.08.41.23.33.33.23.41.08.41-.08.33-.23.23-.33.08-.41-.08-.41-.23-.33-.33-.23-.41-.08-.41.08-.33.23z"/></svg>Python</span>
+              <span class="tag"><svg width="14" height="14" viewBox="0 0 24 24" fill="#009688"><path d="M12 0C5.375 0 0 5.375 0 12c0 6.627 5.375 12 12 12 6.626 0 12-5.373 12-12 0-6.625-5.373-12-12-12zm-.624 21.62v-7.528H7.19L13.203 2.38v7.528h4.029L11.376 21.62z"/></svg>FastAPI</span>
+              <span class="tag">pysentimiento</span>
+              <span class="tag">BETO</span>
+              <span class="tag">NLP</span>
+              <span class="tag"><svg width="14" height="14" viewBox="0 0 24 24" fill="#61DAFB"><path d="M14.23 12.004a2.236 2.236 0 0 1-2.235 2.236 2.236 2.236 0 0 1-2.236-2.236 2.236 2.236 0 0 1 2.235-2.236 2.236 2.236 0 0 1 2.236 2.236zm2.648-10.69c-1.346 0-3.107.96-4.888 2.622-1.78-1.653-3.542-2.602-4.887-2.602-.41 0-.783.093-1.106.278-1.375.793-1.683 3.264-.973 6.365C1.98 8.917 0 10.42 0 12.004c0 1.59 1.99 3.097 5.043 4.03-.704 3.113-.39 5.588.988 6.38.32.187.69.275 1.102.275 1.345 0 3.107-.96 4.888-2.624 1.78 1.654 3.542 2.603 4.887 2.603.41 0 .783-.09 1.106-.275 1.374-.792 1.683-3.263.973-6.365C22.02 15.096 24 13.59 24 12.004c0-1.59-1.99-3.097-5.043-4.032.704-3.11.39-5.587-.988-6.38-.318-.184-.688-.277-1.092-.278z"/></svg>React</span>
+              <span class="tag"><svg width="14" height="14" viewBox="0 0 24 24" fill="#06B6D4"><path d="M12.001 4.8c-3.2 0-5.2 1.6-6 4.8 1.2-1.6 2.6-2.2 4.2-1.8.913.228 1.565.89 2.288 1.624C13.666 10.618 15.027 12 18.001 12c3.2 0 5.2-1.6 6-4.8-1.2 1.6-2.6 2.2-4.2 1.8-.913-.228-1.565-.89-2.288-1.624C16.337 6.182 14.976 4.8 12.001 4.8zm-6 7.2c-3.2 0-5.2 1.6-6 4.8 1.2-1.6 2.6-2.2 4.2-1.8.913.228 1.565.89 2.288 1.624 1.177 1.194 2.538 2.576 5.512 2.576 3.2 0 5.2-1.6 6-4.8-1.2 1.6-2.6 2.2-4.2 1.8-.913-.228-1.565-.89-2.288-1.624C10.337 13.382 8.976 12 6.001 12z"/></svg>Tailwind CSS</span>
+              <span class="tag"><svg width="14" height="14" viewBox="0 0 24 24" fill="#646CFF"><path d="M24 0 13.07 21.69l-2.54-10.58L24 0zM0 0l10.93 11.11L8.39 21.69 0 0z"/></svg>Vite</span>
+              <span class="tag">Recharts</span>
+              <span class="tag">Docker</span>
+              <span class="tag">Hugging Face Spaces</span>
+              <span class="tag"><svg width="14" height="14" viewBox="0 0 24 24" fill="#F7931E"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm-1 17l-5-5 1.4-1.4 3.6 3.6 7.6-7.6L20 8l-9 9z"/></svg>Scikit-Learn</span>
+              <span class="tag">Vercel</span>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
@@ -685,7 +728,7 @@
  
         <!-- AWS Academy Cloud Foundations -->
         <div class="timeline-item" data-aos="fade-up" data-aos-delay="0">
-          <div class="timeline-date">2024</div>
+          <div class="timeline-date">2025</div>
           <div class="timeline-line"><div class="timeline-dot"></div></div>
           <div class="timeline-content">
             <div class="exp-role">AWS Academy Graduate — Cloud Foundations</div>
