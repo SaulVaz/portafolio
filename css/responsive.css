@@ -1,0 +1,85 @@
+/* Adaptacion a pantallas pequenas y movimiento reducido. */
+@media (max-width: 500px) {
+  .cv-project {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 600px) {
+  nav {
+    padding: 0.8rem 1rem;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .nav-links {
+    gap: 0.9rem;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    flex: 1;
+    min-width: 0;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    padding-bottom: 0.2rem;
+    padding-right: 1rem;
+    mask-image: linear-gradient(to right, black calc(100% - 2.5rem), transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, black calc(100% - 2.5rem), transparent 100%);
+  }
+  .nav-links::-webkit-scrollbar {
+    display: none;
+  }
+  .nav-links a {
+    white-space: nowrap;
+    font-size: 0.72rem;
+  }
+  .nav-controls {
+    position: static !important;
+    flex-shrink: 0;
+  }
+  #hero, .section-wrap {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+  #hero {
+    padding-top: 6rem;
+  }
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  .timeline-item {
+    grid-template-columns: 1fr;
+  }
+  .timeline-date {
+    text-align: left;
+  }
+  .timeline-line {
+    display: none;
+  }
+  footer {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 600px) {
+  #backToTop {
+    bottom: 1.2rem;
+    right: 1.2rem;
+    width: 40px;
+    height: 40px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "checks": 17,
+  "passed": [
+    "No JavaScript errors on initial load",
+    "All initial visible text preserved",
+    "Layout and section styles preserved at width 1440",
+    "No document overflow at width 1440",
+    "Layout and section styles preserved at width 390",
+    "No document overflow at width 390",
+    "All SVG instances retain their geometry",
+    "English language applied",
+    "Spanish round trip retains the original content",
+    "Filter webdev shows 8 projects",
+    "Filter data shows 9 projects",
+    "Filter all shows 14 projects",
+    "Scroll progress and back-to-top update",
+    "Back-to-top returns to zero",
+    "Language preference survives reload",
+    "Own functions work without AOS and with reduced motion",
+    "No JavaScript errors during interactions"
+  ],
+  "viewports": [
+    1440,
+    390
+  ],
+  "note": "External resources stubbed for layout comparison. Original images and CV absent in attachment."
+}
